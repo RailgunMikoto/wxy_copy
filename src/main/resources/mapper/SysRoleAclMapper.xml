@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wxy.mapper.SysRoleAclMapper" >
+  <resultMap id="BaseResultMap" type="com.wxy.entity.SysRoleAcl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="acl_id" property="aclId" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, role_id, acl_id, operator, operate_time, operate_ip
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role_acl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_role_acl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.wxy.entity.SysRoleAcl" >
+    insert into sys_role_acl (id, role_id, acl_id, 
+      operator, operate_time, operate_ip
+      )
+    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{aclId,jdbcType=INTEGER}, 
+      #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wxy.entity.SysRoleAcl" >
+    insert into sys_role_acl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="aclId != null" >
+        acl_id,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="operateTime != null" >
+        operate_time,
+      </if>
+      <if test="operateIp != null" >
+        operate_ip,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="aclId != null" >
+        #{aclId,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateIp != null" >
+        #{operateIp,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wxy.entity.SysRoleAcl" >
+    update sys_role_acl
+    <set >
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="aclId != null" >
+        acl_id = #{aclId,jdbcType=INTEGER},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="operateTime != null" >
+        operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateIp != null" >
+        operate_ip = #{operateIp,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wxy.entity.SysRoleAcl" >
+    update sys_role_acl
+    set role_id = #{roleId,jdbcType=INTEGER},
+      acl_id = #{aclId,jdbcType=INTEGER},
+      operator = #{operator,jdbcType=VARCHAR},
+      operate_time = #{operateTime,jdbcType=TIMESTAMP},
+      operate_ip = #{operateIp,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- 角色权限树的Dto -->
+  <resultMap id="roleAcl" type="com.wxy.dto.SysRoleAclDto" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="acl_id" property="aclId" jdbcType="INTEGER" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
+    <collection property="aclList" ofType="SysAcl">
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="code" property="code" jdbcType="VARCHAR" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="acl_module_id" property="aclModuleId" jdbcType="INTEGER" />
+      <result column="url" property="url" jdbcType="VARCHAR" />
+      <result column="type" property="type" jdbcType="INTEGER" />
+      <result column="status" property="status" jdbcType="INTEGER" />
+      <result column="seq" property="seq" jdbcType="INTEGER" />
+      <result column="remark" property="remark" jdbcType="VARCHAR" />
+      <result column="operator" property="operator" jdbcType="VARCHAR" />
+      <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+      <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+  
+  <!-- 权限 -->
+  <resultMap id="acl" type="SysAcl">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="acl_module_id" property="aclModuleId" jdbcType="INTEGER" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="seq" property="seq" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+    <result column="operate_ip" property="operateIp" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- 根据角色roleId，查询角色拥有的权限 -->
+  <select id="getAllAclByRoleId" resultMap="acl">
+    select * from sys_acl where id in (select acl_id from sys_role_acl where role_id = #{roleId})
+  </select>
+
+  <!-- 根据角色roleId，查询角色拥有的权限点id -->
+  <select id="getAclIdByRoleId" resultType="int">
+    select acl_id from sys_role_acl
+    <where>
+        <foreach collection="roleIds" open="role_id in (" close=")" item="roleId" separator=",">
+            #{roleId}
+        </foreach>
+    </where>
+  </select>
+
+  <!-- 根据roleId删除Acls -->
+  <delete id="deleteAclByRoleId" >
+    delete from sys_role_acl where role_id = #{roleId};
+  </delete>
+
+  <!-- 添加角色与权限之间的关系 -->
+  <insert id="insertRoleAcl">
+    insert into sys_role_acl (role_id, acl_id) values
+    <foreach collection="aclIds"  close=";" separator="," item="aclId">
+      (#{roleId}, #{aclId})
+    </foreach>
+  </insert>
+</mapper>

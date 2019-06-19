@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 设置静态资源不过滤 -->
+    <mvc:resources mapping="/assets/**" location="/assets/"></mvc:resources>
+    <mvc:resources mapping="/bootstrap3.3.5/**" location="/bootstrap3.3.5/"></mvc:resources>
+    <mvc:resources mapping="/css/**" location="/css/"></mvc:resources>
+    <mvc:resources mapping="/js/**" location="/js/"></mvc:resources>
+    <mvc:resources mapping="/ztree/**" location="/ztree/"></mvc:resources>
+
+
+
+    <!-- 配置jsonView -->
+    <bean id="springExceptionResolver" class="com.wxy.util.SpringExceptionResolver"></bean>
+    <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver"></bean>
+    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"></bean>
+
+    <!-- 配置视图解析器 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+</beans>
